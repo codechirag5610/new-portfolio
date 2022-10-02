@@ -66,7 +66,7 @@ const Testimonial = () => {
             <img src={urlFor(brand.imgUrl)} alt={brand.name} />
           </motion.div>
         ))}
-      </div></> : <h4 className='head-text'>Be the first one to work with me and be a testimony</h4>}
+      </div></> : <h4 className='head-text'>Let's work together to show yourself here as a testimony</h4>}
     </>
   )
 }

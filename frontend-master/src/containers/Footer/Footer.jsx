@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { images } from '../../constants'
 import { AppWrap, MotionWrap } from '../../wrapper/index'
 import { urlFor, client } from '../../client'
+import DownloadLink from "react-download-link";
 import './Footer.scss'
 
 
@@ -45,6 +46,16 @@ const Footer = () => {
         <div className="app__footer-card">
           <img src={images.github} alt="github" />
           <a href="https://github.com/codechirag5610" className='p-text'>My Github</a>
+        </div>
+        <div className="app__footer-card">
+          <img src={images.download} alt="resume" />
+          {/* <DownloadLink
+            label="Download my Resume"
+            filename="ChiragResume.pdf"
+            className='p-text'
+            exportFile={() => Promise.resolve("../../chirag_resume_finall.pdf")}
+          /> */}
+          <a href='/files/chirag_resume_finall.pdf' className='p-text' download>Download my Resume from here</a>
         </div>
       </div>
       {!isFormSubmitted ? 

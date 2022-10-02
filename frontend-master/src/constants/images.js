@@ -24,10 +24,11 @@ import about01 from '../assets/about01.png';
 import about02 from '../assets/about02.png';
 import about03 from '../assets/about03.png';
 import about04 from '../assets/about04.png';
+import download from '../assets/downloadimg.png'
 
-import profile from '../assets/profile.png';
+import profile from '../assets/myprofile.png';
 import circle from '../assets/circle.svg';
-import logo from '../assets/logo.png';
+import logo from '../assets/mylogo.png';
 
 import adidas from '../assets/adidas.png';
 import amazon from '../assets/amazon.png';
@@ -72,4 +73,5 @@ export default {
   nb,
   skype,
   spotify,
+  download,
 };
