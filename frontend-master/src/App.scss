@@ -5,6 +5,12 @@
 .app__whitebg{
     background-color: var(--white-color);
 }
+.app__dgbg{
+  background-color: var(--dark-gray);
+}
+.app__lgbg{
+  background-color: var(--light-gray);
+}
 .app__primarybg{
     background-color: var(--primary-color);
 }
@@ -39,18 +45,18 @@
 
     p{
         text-transform: uppercase;
-        color: var(--black-color);
+        color: var(--white-color);
     }
 }
 .head-text{
     font-size: 2.75rem;
     font-weight: 800;
     text-align: center;
-    color: var(--black-color);
+    color: var(--white-color);
     text-transform: capitalize;
 
     span{
-        color: var(--secondary-color);
+        color: var(--orange-color);
     }
 
     @media screen and (min-width: 2000px){
@@ -64,7 +70,7 @@
 .p-text{
     font-size: 0.8rem;
     text-align: left;
-    color: var(--gray-color);
+    color: var(--lightGray-color);
     line-height: 1.5;
 
     @media screen and (min-width: 2000px){
@@ -74,7 +80,7 @@
 .bold-text{
     font-size: 1rem;
     font-weight: 800;
-    color: var(--black-color);
+    color: var(--white-color);
     text-align: left;
 
     @media screen and (min-width: 2000px){
@@ -110,12 +116,12 @@
       svg {
         width: 15px;
         height: 15px;
-        color: var(--gray-color);
+        color: var(--dark-gray);
       }
   
       &:hover {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
+        background-color: var(--orange-color);
+        border-color: var(--orange-color);
   
         svg {
           color: var(--white-color);
@@ -154,7 +160,7 @@
       transition: background-color 0.2s ease-in-out;
   
       &:hover {
-        background-color: var(--secondary-color);
+        background-color: var(--orange-color);
       }
   
       @media screen and (min-width: 2000px) {
