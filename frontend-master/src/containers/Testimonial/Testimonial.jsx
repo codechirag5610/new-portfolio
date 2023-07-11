@@ -74,5 +74,5 @@ const Testimonial = () => {
 export default AppWrap(
   MotionWrap(Testimonial, 'app__testimonials'), 
   'testimonials', 
-  'app__primarybg'
+  'app__lgbg'
   );

@@ -41,11 +41,11 @@ const Footer = () => {
       <div className="app__footer-cards">
         <div className="app__footer-card">
           <img src={images.email} alt="email" />
-          <a href="mailto:sharmachirag347@gmail.com" className='p-text'>sharmachirag347@gmail.com</a>
+          <a href="mailto:sharmachirag347@gmail.com" className='p-text' style={{ color: 'black' }}>sharmachirag347@gmail.com</a>
         </div>
         <div className="app__footer-card">
-          <img src={images.github} alt="github" />
-          <a href="https://github.com/codechirag5610" className='p-text'>My Github</a>
+          <img src={images.github} alt="github" style={{ width: 'auto' }} />
+          <a href="https://github.com/codechirag5610" className='p-text' style={{ color: 'black' }}>My Github</a>
         </div>
         <div className="app__footer-card">
           <img src={images.download} alt="resume" />
@@ -55,7 +55,7 @@ const Footer = () => {
             className='p-text'
             exportFile={() => Promise.resolve("../../chirag_resume_finall.pdf")}
           /> */}
-          <a href='/files/chirag_resume_finall.pdf' className='p-text' download>Download my Resume from here</a>
+          <a href='/files/chirag_resume_finall.pdf' className='p-text' style={{ color: 'black' }} download>Download my Resume from here</a>
         </div>
       </div>
       {!isFormSubmitted ? 
@@ -78,5 +78,5 @@ const Footer = () => {
 export default AppWrap(
   MotionWrap(Footer, 'app__footer'), 
   'contact', 
-  'app__whitebg'
+  'app__dgbg'
   );

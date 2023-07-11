@@ -31,8 +31,9 @@ const Header = () => {
           </div>
 
           <div className="tag-cmp app__flex">
+            <p className="p-text">AWS Certified Solutions Architect</p>
+            <p className="p-text">Kubernetes Developer</p>
             <p className="p-text">Web Developer</p>
-            <p className="p-text">Web3 Developer</p>
             <p className="p-text">ML Enthusiast</p>
             <p className="p-text">Freelancer</p>
           </div>
@@ -44,7 +45,7 @@ const Header = () => {
       transition={{ duration: 0.5, delayChildren: 0.5 }}
       className='app__header-img'
       >
-        <img src={images.profile} alt="profile_bg" />
+        <img src={images.cover} alt="profile_bg" />
         <motion.img
           whileInView={{ scale: [0,1] }}
           transition={{ duration: 1, ease: 'easeInOut' }}
@@ -60,7 +61,7 @@ const Header = () => {
       className="app__header-circles"
       >
         {[images.node, images.react, images.sass].map((circle, index) => (
-          <div className="circle-cmp app__flex" key={`circle-${index}`}>
+          <div className="circle-cmp app__flex" key={`circle-${index}`} style={{ background: "#202020"}}>
             <img src={circle} alt="circle" />
           </div>
         ))}
