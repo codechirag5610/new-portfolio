@@ -8,7 +8,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
-    "build": "sanity build"
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "login": "sanity login",
+    "publish": "sanity publish"
   },
   "keywords": [
     "sanity"
