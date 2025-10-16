@@ -1,18 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --font-base: "Open Sans", sans-serif;
+  /* Typography */
+  --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Spacing System (inspired by Linear) */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal: 1300;
+  --z-popover: 1400;
+  --z-tooltip: 1500;
+}
 
-  --primary-color: #edf2f8;
-  --secondary-color: #313bac;
-  --black-color: #030303;
-  --lightGray-color: #e2dbd5;
-  --gray-color: #6b7688;
-  --brown-color: #46364a;
-  --white-color: #ffffff;
-  --dark-gray: #202020;
-  --light-gray: #404040;
-  --orange-color: #fc710e;
+/* Dark Theme (Default - Pure Black like Linear) */
+[data-theme='dark'] {
+  /* Backgrounds */
+  --background-primary: #000000;
+  --background-secondary: #0a0a0a;
+  --background-tertiary: #111111;
+  --background-elevated: #1a1a1a;
+  --background-overlay: rgba(0, 0, 0, 0.8);
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #b4b4b4;
+  --text-tertiary: #6e6e6e;
+  --text-quaternary: #525252;
+  --text-inverse: #000000;
+  
+  /* Border Colors */
+  --border-color: #222222;
+  --border-subtle: #1a1a1a;
+  --border-strong: #2e2e2e;
+  
+  /* Accent Colors (Simple Black & White) */
+  --accent-primary: #ffffff;
+  --accent-secondary: #e5e5e5;
+  --accent-tertiary: #d4d4d4;
+  --accent-gradient: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%);
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  
+  /* Glassmorphism */
+  --glass-background: rgba(26, 26, 26, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-backdrop: blur(12px);
+}
+
+/* Light Theme (Clean White like Linear) */
+[data-theme='light'] {
+  /* Backgrounds */
+  --background-primary: #ffffff;
+  --background-secondary: #fafafa;
+  --background-tertiary: #f5f5f5;
+  --background-elevated: #ffffff;
+  --background-overlay: rgba(255, 255, 255, 0.9);
+  
+  /* Text Colors */
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #737373;
+  --text-quaternary: #a3a3a3;
+  --text-inverse: #ffffff;
+  
+  /* Border Colors */
+  --border-color: #e5e5e5;
+  --border-subtle: #f0f0f0;
+  --border-strong: #d4d4d4;
+  
+  /* Accent Colors (Simple Black & White) */
+  --accent-primary: #000000;
+  --accent-secondary: #171717;
+  --accent-tertiary: #262626;
+  --accent-gradient: linear-gradient(135deg, #000000 0%, #262626 100%);
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Glassmorphism */
+  --glass-background: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-backdrop: blur(12px);
 }
 
 * {
@@ -21,4 +130,49 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--background-primary);
+  color: var(--text-primary);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* Selection */
+::selection {
+  background: var(--text-primary);
+  color: var(--background-primary);
+}
+
+/* Scrollbar Styling (Minimal like Linear) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Focus States */
+*:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }

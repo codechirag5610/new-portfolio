@@ -11,6 +11,9 @@ import contact from './contact'
 import experiences from './experiences'
 import works from './works'
 import workExperience from './workExperience'
+import caseStudies from './caseStudies'
+import certifications from './certifications'
+import education from './education'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -20,6 +23,6 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     /* Your types here! */
-    testimonials, works, abouts, brands, skills, contact, workExperience, experiences
+    testimonials, works, abouts, brands, skills, contact, workExperience, experiences, caseStudies, certifications, education
   ]),
 })
