@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import FloatingNav from '../../components/FloatingNav/FloatingNav';
 import { images } from '../../constants';
 import { client, urlFor } from '../../client';
 import './AboutPage.scss';
+
+const calendlyLink = process.env.REACT_APP_CALENDLY_LINK || "https://calendly.com/sharmachirag347/30min";
+
+// Helper function to format category names for display
+const formatCategoryName = (category) => {
+  if (category === 'All') return 'All';
+  if (category === 'CICD') return 'CI/CD and Automations';
+  
+  // Replace hyphens with spaces
+  return category.replace(/-/g, ' ');
+};
 
 const AboutPage = () => {
   const [activeSection, setActiveSection] = useState('experience');
@@ -13,7 +24,17 @@ const AboutPage = () => {
   const [certifications, setCertifications] = useState([]);
   const [education, setEducation] = useState([]);
   const [selectedTag, setSelectedTag] = useState('All');
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState('All');
   const [expandedWork, setExpandedWork] = useState(null);
+
+  // Dynamically extract unique skill categories from the skills data
+  const skillCategories = useMemo(() => {
+    const categories = skills
+      .map(skill => skill.category)
+      .filter(Boolean) // Remove null/undefined values
+      .filter((value, index, self) => self.indexOf(value) === index); // Get unique values
+    return ['All', ...categories];
+  }, [skills]);
 
   useEffect(() => {
     const experienceQuery = '*[_type == "experiences"] | order(year desc)';
@@ -126,7 +147,7 @@ const AboutPage = () => {
           </div>
 
           <a 
-            href="https://calendly.com/your-link" 
+            href={calendlyLink} 
             target="_blank" 
             rel="noreferrer"
             className="btn btn-primary schedule-btn"
@@ -315,24 +336,43 @@ const AboutPage = () => {
               Technical Skills
             </h2>
             
-            <div className="skills-grid">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  className="skill-card"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  whileHover={{ y: -4 }}
+            {/* Skill Category Filters */}
+            <div className="skill-filters">
+              {skillCategories.map((category) => (
+                <button
+                  key={category}
+                  className={`filter-btn ${selectedSkillCategory === category ? 'active' : ''}`}
+                  onClick={() => setSelectedSkillCategory(category)}
                 >
-                  <div className="skill-icon">
-                    <img src={urlFor(skill.icon)} alt={skill.name} />
-                  </div>
-                  <p>{skill.name}</p>
-                </motion.div>
+                  {formatCategoryName(category)}
+                </button>
               ))}
             </div>
+
+            <div className="skills-grid">
+              {skills
+                .filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory)
+                .map((skill, index) => (
+                  <motion.div
+                    key={skill.name}
+                    className="skill-card"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    whileHover={{ y: -4 }}
+                  >
+                    <div className="skill-icon">
+                      <img src={urlFor(skill.icon)} alt={skill.name} />
+                    </div>
+                    <p>{skill.name}</p>
+                  </motion.div>
+                ))}
+            </div>
+
+            {skills.filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory).length === 0 && (
+              <p className="no-data">No skills found for this category.</p>
+            )}
           </motion.div>
         </section>
 

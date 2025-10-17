@@ -6,6 +6,8 @@ import { client, urlFor } from '../../client';
 import ResumePDF from '../../assets/DevOps_Lead_Chirag_Sharma.pdf';
 import './HomePage.scss';
 
+const calendlyLink = process.env.REACT_APP_CALENDLY_LINK || "https://calendly.com/sharmachirag347/30min";
+
 const HomePage = () => {
   const [caseStudies, setCaseStudies] = useState([]);
   const [displayedName, setDisplayedName] = useState('');
@@ -151,7 +153,7 @@ const HomePage = () => {
             <a href={ResumePDF} download="Chirag_Sharma_Resume.pdf" className="btn btn-primary">
               View Resume
             </a>
-            <a href="https://calendly.com/your-scheduling-link" target="_blank" rel="noreferrer" className="btn btn-secondary">
+            <a href={calendlyLink} target="_blank" rel="noreferrer" className="btn btn-secondary">
               Get in Touch
             </a>
           </motion.div>
