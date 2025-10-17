@@ -144,7 +144,7 @@ const AboutPage = () => {
             <h2 className="get-in-touch__title">Get in Touch</h2>
             <div className="get-in-touch__buttons">
               <a 
-                href="mailto:sharmachirag347@gmail.com" 
+                href="mailto:contact@chiragsharma.dev" 
                 className="connect-btn"
               >
                 <HiMail className="btn-icon" />
