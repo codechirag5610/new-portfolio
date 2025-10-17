@@ -249,8 +249,9 @@
   z-index: 100;
   cursor: pointer;
 
-  @media screen and (max-width: 768px) {
-    right: var(--spacing-lg);
+  // Hide on tablets and smaller devices
+  @media screen and (max-width: 1024px) {
+    display: none;
   }
 
   .scroll-mouse {
