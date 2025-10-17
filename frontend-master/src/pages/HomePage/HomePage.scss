@@ -110,10 +110,15 @@
     letter-spacing: 0.02em;
 
     .prompt {
-      color: #ffffff; /* Classic Linux terminal green */
+      color: #ffffff; /* Classic Linux terminal green for dark mode */
       font-weight: 700;
       margin-right: 8px;
       text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+      
+      [data-theme='light'] & {
+        color: var(--text-primary); /* Black in light mode */
+        text-shadow: none;
+      }
     }
 
     .cursor {

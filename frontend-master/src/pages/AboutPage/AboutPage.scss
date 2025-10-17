@@ -61,39 +61,64 @@
       font-weight: 500;
     }
 
-    .contact-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-md);
+    .get-in-touch {
+      margin-top: var(--spacing-xl);
 
       @media screen and (max-width: 768px) {
-        flex-direction: column;
-        align-items: center;
+        text-align: center;
       }
 
-      a {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-xs);
-        color: var(--text-secondary);
-        text-decoration: none;
-        font-size: 0.9375rem;
-        transition: color var(--transition-base);
+      .get-in-touch__title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-lg);
+      }
 
-        &:hover {
-          color: var(--text-primary);
+      .get-in-touch__buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-md);
+        max-width: 700px;
+
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr;
+          max-width: 100%;
         }
-      }
-    }
 
-    .schedule-btn {
-      align-self: flex-start;
-      margin-top: var(--spacing-md);
+        .connect-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--spacing-sm);
+          padding: var(--spacing-md) var(--spacing-lg);
+          background: var(--background-elevated);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-lg);
+          color: var(--text-secondary);
+          text-decoration: none;
+          font-size: 0.9375rem;
+          font-weight: 500;
+          transition: all var(--transition-base);
+          cursor: pointer;
 
-      @media screen and (max-width: 768px) {
-        align-self: center;
-        width: 100%;
-        max-width: 300px;
+          .btn-icon {
+            font-size: 1.125rem;
+            flex-shrink: 0;
+          }
+
+          &:hover {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: var(--background-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
       }
     }
   }

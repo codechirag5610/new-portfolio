@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import FloatingNav from '../../components/FloatingNav/FloatingNav';
+import { FaGithub, FaLinkedin, FaStackOverflow } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { HiMail } from 'react-icons/hi';
+import { BsCalendar3 } from 'react-icons/bs';
 import { images } from '../../constants';
 import { client, urlFor } from '../../client';
 import './AboutPage.scss';
@@ -134,26 +138,70 @@ const AboutPage = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h1>Chirag Sharma</h1>
-          <p className="designation">DevOps Lead & AWS Solutions Architect</p>
+          <p className="designation">DevOps Lead | Solutions Architect Associate</p>
           
-          <div className="contact-info">
-            <a href="mailto:sharmachirag347@gmail.com">📧 sharmachirag347@gmail.com</a>
-            <a href="https://www.linkedin.com/in/chirag-sharma-631099192/" target="_blank" rel="noreferrer">
-              💼 LinkedIn
-            </a>
-            <a href="https://github.com/codechirag5610" target="_blank" rel="noreferrer">
-              🔗 GitHub
-            </a>
+          <div className="get-in-touch">
+            <h2 className="get-in-touch__title">Get in Touch</h2>
+            <div className="get-in-touch__buttons">
+              <a 
+                href="mailto:sharmachirag347@gmail.com" 
+                className="connect-btn"
+              >
+                <HiMail className="btn-icon" />
+                <span>Send Mail</span>
+              </a>
+              
+              <a 
+                href={calendlyLink} 
+                target="_blank" 
+                rel="noreferrer"
+                className="connect-btn"
+              >
+                <BsCalendar3 className="btn-icon" />
+                <span>Schedule a Call</span>
+              </a>
+              
+              <a 
+                href="https://www.linkedin.com/in/chirag-sharma-631099192/" 
+                target="_blank" 
+                rel="noreferrer"
+                className="connect-btn"
+              >
+                <FaLinkedin className="btn-icon" />
+                <span>Connect on LinkedIn</span>
+              </a>
+              
+              <a 
+                href="https://x.com/ll__chirag__ll" 
+                target="_blank" 
+                rel="noreferrer"
+                className="connect-btn"
+              >
+                <FaXTwitter className="btn-icon" />
+                <span>Connect on X (Twitter)</span>
+              </a>
+              
+              <a 
+                href="https://github.com/codechirag5610" 
+                target="_blank" 
+                rel="noreferrer"
+                className="connect-btn"
+              >
+                <FaGithub className="btn-icon" />
+                <span>View GitHub</span>
+              </a>
+              
+              <a 
+                href="https://stackoverflow.com/users/21302780/chirag-sharma" 
+                target="_blank" 
+                rel="noreferrer"
+                className="connect-btn"
+              >
+                <FaStackOverflow className="btn-icon" />
+                <span>Stack Overflow</span>
+              </a>
+            </div>
           </div>
-
-          <a 
-            href={calendlyLink} 
-            target="_blank" 
-            rel="noreferrer"
-            className="btn btn-primary schedule-btn"
-          >
-            📅 Schedule a Call
-          </a>
         </motion.div>
       </div>
 
