@@ -31,7 +31,7 @@ const Footer = () => {
     },
     { 
       icon: <HiMail />, 
-      url: 'mailto:sharmachirag347@gmail.com', 
+      url: 'mailto:contact@chiragsharma.dev', 
       label: 'Email' 
     },
     { 
