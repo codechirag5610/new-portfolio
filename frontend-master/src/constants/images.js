@@ -18,6 +18,7 @@ import sass from '../assets/sass.png';
 import typescript from '../assets/typescript.png';
 import vue from '../assets/vue.png';
 import github from '../assets/github.png';
+import dp from '../assets/dp.jpeg';
 
 
 import about01 from '../assets/about01.png';
@@ -67,6 +68,7 @@ export default {
   circle,
   logo,
   adidas,
+  dp,
   amazon,
   asus,
   bolt,

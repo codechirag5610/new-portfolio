@@ -25,7 +25,7 @@ const Navbar = () => {
     <nav className='app__navbar'>
       <div className='app__navbar-logo'>
         <Link to="/">
-          <img src={images.logo} alt="logo" />
+          <img src={images.dp} alt="logo" />
         </Link>
       </div>
       
