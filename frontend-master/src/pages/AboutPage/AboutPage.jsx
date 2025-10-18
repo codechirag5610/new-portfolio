@@ -302,7 +302,7 @@ const AboutPage = () => {
             
             {/* Project Filters */}
             <div className="project-filters">
-              {['All', 'Workflows', 'Web App', 'Terraform', 'React JS', 'Helm Charts', 'Automations'].map((tag) => (
+              {['All', 'Web App', 'React JS', 'IaC', 'Helm Charts', 'Automations and Pipelines', 'DevOps', 'AI', 'Observability', 'Security'].map((tag) => (
                 <button
                   key={tag}
                   className={`filter-btn ${selectedTag === tag ? 'active' : ''}`}
