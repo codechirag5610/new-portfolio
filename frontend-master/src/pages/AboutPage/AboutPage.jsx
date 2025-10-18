@@ -30,6 +30,7 @@ const AboutPage = () => {
   const [selectedTag, setSelectedTag] = useState('All');
   const [selectedSkillCategory, setSelectedSkillCategory] = useState('All');
   const [expandedWork, setExpandedWork] = useState(null);
+  const [expandedCompany, setExpandedCompany] = useState(null);
 
   // Dynamically extract unique skill categories from the skills data
   const skillCategories = useMemo(() => {
@@ -39,6 +40,47 @@ const AboutPage = () => {
       .filter((value, index, self) => self.indexOf(value) === index); // Get unique values
     return ['All', ...categories];
   }, [skills]);
+
+  // Group experiences by company, then by year
+  const experiencesByCompany = useMemo(() => {
+    const grouped = {};
+    
+    experiences.forEach((exp) => {
+      exp.works?.forEach((work) => {
+        const company = work.company || 'Unknown Company';
+        
+        if (!grouped[company]) {
+          grouped[company] = {};
+        }
+        
+        if (!grouped[company][exp.year]) {
+          grouped[company][exp.year] = [];
+        }
+        
+        grouped[company][exp.year].push({
+          ...work,
+          year: exp.year
+        });
+      });
+    });
+
+    // Convert to array format and sort years within each company (descending - latest first)
+    const result = Object.keys(grouped).map(company => {
+      const yearEntries = Object.keys(grouped[company])
+        .sort((a, b) => Number(b) - Number(a)) // Sort years in descending order
+        .map(year => ({
+          year,
+          works: grouped[company][year]
+        }));
+      
+      return {
+        company,
+        yearData: yearEntries
+      };
+    });
+
+    return result;
+  }, [experiences]);
 
   useEffect(() => {
     const experienceQuery = '*[_type == "experiences"] | order(year desc)';
@@ -219,70 +261,112 @@ const AboutPage = () => {
               Work Experience
             </h2>
             
-            <div className="timeline">
-              {experiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  className="timeline-item"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <div className="timeline-marker" />
-                  <div className="timeline-content">
-                    <span className="year">{exp.year}</span>
-                    {exp.works?.map((work, workIndex) => {
-                      const workId = `${index}-${workIndex}`;
-                      const isExpanded = expandedWork === workId;
-                      
-                      return (
-                        <div key={workIndex} className="work-item">
-                          <div className="work-header">
-                            <div className="work-main">
-                              <h3>{work.name}</h3>
-                              <p className="company">{work.company}</p>
-                              {(work.startDate || work.endDate) && (
-                                <p className="duration">
-                                  {work.startDate}
-                                  {work.startDate && work.endDate && ' - '}
-                                  {work.endDate}
-                                </p>
-                              )}
-                              <p className="description">{work.desc}</p>
+            <div className="companies-container">
+              {experiencesByCompany.length === 0 ? (
+                <p className="no-data">No work experience added yet. Add them in Sanity Studio.</p>
+              ) : (
+                experiencesByCompany.map(({ company, yearData }, companyIndex) => {
+                const isCompanyExpanded = expandedCompany === company;
+                
+                return (
+                  <motion.div
+                    key={company}
+                    className="company-section"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: companyIndex * 0.1 }}
+                  >
+                    <div 
+                      className="company-header"
+                      onClick={() => setExpandedCompany(isCompanyExpanded ? null : company)}
+                    >
+                      <h3 className="company-name">{company}</h3>
+                      <button
+                        className="company-toggle-btn"
+                        aria-label={isCompanyExpanded ? "Collapse" : "Expand"}
+                      >
+                        <span className={`arrow ${isCompanyExpanded ? 'expanded' : ''}`}>▼</span>
+                      </button>
+                    </div>
+
+                    <motion.div
+                      className="company-timeline-wrapper"
+                      initial={false}
+                      animate={{
+                        height: isCompanyExpanded ? 'auto' : 0,
+                        opacity: isCompanyExpanded ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    >
+                      <div className="timeline">
+                        {yearData.map(({ year, works }, yearIndex) => (
+                          <motion.div
+                            key={year}
+                            className="timeline-item"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3, delay: yearIndex * 0.05 }}
+                          >
+                            <div className="timeline-marker" />
+                            <div className="timeline-content">
+                              <span className="year">{year}</span>
+                              {works.map((work, workIndex) => {
+                                const workId = `${company}-${year}-${workIndex}`;
+                                const isWorkExpanded = expandedWork === workId;
+                                
+                                return (
+                                  <div key={workIndex} className="work-item">
+                                    <div className="work-header">
+                                      <div className="work-main">
+                                        <h4>{work.name}</h4>
+                                        {(work.startDate || work.endDate) && (
+                                          <p className="duration">
+                                            {work.startDate}
+                                            {work.startDate && work.endDate && ' - '}
+                                            {work.endDate}
+                                          </p>
+                                        )}
+                                        <p className="description">{work.desc}</p>
+                                      </div>
+                                      {work.longDescription && (
+                                        <button
+                                          className="expand-btn"
+                                          onClick={() => setExpandedWork(isWorkExpanded ? null : workId)}
+                                          title={isWorkExpanded ? "Hide details" : "Show details"}
+                                        >
+                                          <span className={`arrow ${isWorkExpanded ? 'expanded' : ''}`}>▼</span>
+                                        </button>
+                                      )}
+                                    </div>
+                                    
+                                    {work.longDescription && (
+                                      <motion.div
+                                        className="work-details"
+                                        initial={false}
+                                        animate={{
+                                          height: isWorkExpanded ? 'auto' : 0,
+                                          opacity: isWorkExpanded ? 1 : 0,
+                                        }}
+                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                      >
+                                        <div className="details-content">
+                                          <p>{work.longDescription}</p>
+                                        </div>
+                                      </motion.div>
+                                    )}
+                                  </div>
+                                );
+                              })}
                             </div>
-                            {work.longDescription && (
-                              <button
-                                className="expand-btn"
-                                onClick={() => setExpandedWork(isExpanded ? null : workId)}
-                                title={isExpanded ? "Hide details" : "Show details"}
-                              >
-                                <span className={`arrow ${isExpanded ? 'expanded' : ''}`}>▼</span>
-                              </button>
-                            )}
-                          </div>
-                          
-                          {work.longDescription && (
-                            <motion.div
-                              className="work-details"
-                              initial={false}
-                              animate={{
-                                height: isExpanded ? 'auto' : 0,
-                                opacity: isExpanded ? 1 : 0,
-                              }}
-                              transition={{ duration: 0.3, ease: 'easeInOut' }}
-                            >
-                              <div className="details-content">
-                                <p>{work.longDescription}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              ))}
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                );
+              })
+              )}
             </div>
           </motion.div>
         </section>
