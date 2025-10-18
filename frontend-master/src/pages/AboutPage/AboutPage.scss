@@ -154,6 +154,98 @@
   }
 }
 
+/* Company Sections */
+.companies-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.company-section {
+  background: var(--background-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  cursor: pointer;
+  background: var(--background-tertiary);
+  transition: all var(--transition-base);
+
+  &:hover {
+    background: var(--background-elevated);
+  }
+
+  .company-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .company-toggle-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .arrow {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      transition: transform var(--transition-base);
+      display: inline-block;
+
+      &.expanded {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:hover .arrow {
+      color: var(--text-primary);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: var(--spacing-md) var(--spacing-lg);
+
+    .company-name {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.company-timeline-wrapper {
+  overflow: hidden;
+  padding: 0 var(--spacing-xl);
+
+  &[style*="height: auto"] {
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 var(--spacing-md);
+
+    &[style*="height: auto"] {
+      padding-top: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+    }
+  }
+}
+
 /* Timeline Styles */
 .timeline {
   position: relative;
@@ -230,19 +322,12 @@
         flex: 1;
       }
 
-      h3 {
-        font-size: 1.25rem;
+      h4 {
+        font-size: 1.125rem;
         font-weight: 600;
         color: var(--text-primary);
         margin-bottom: var(--spacing-xs);
         line-height: 1.3;
-      }
-
-      .company {
-        font-size: 1rem;
-        color: var(--text-secondary);
-        font-weight: 500;
-        margin-bottom: var(--spacing-xs);
       }
 
       .duration {
