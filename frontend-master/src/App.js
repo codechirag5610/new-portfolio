@@ -1,6 +1,7 @@
 import './App.scss';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navbar, Footer } from './components/index';
+import { Navbar, Footer, DevOpsLoader } from './components/index';
 import { ThemeProvider } from './context/ThemeContext';
 import HomePage from './pages/HomePage/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
@@ -9,6 +10,21 @@ import CaseStudyDetail from './pages/CaseStudyDetail/CaseStudyDetail';
 import { AnimatePresence } from 'framer-motion';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial app load
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500); // Show loader for 2.5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <DevOpsLoader />;
+  }
+
   return (
     <ThemeProvider>
       <Router>
