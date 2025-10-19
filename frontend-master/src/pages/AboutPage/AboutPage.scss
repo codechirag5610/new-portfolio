@@ -145,6 +145,23 @@
     .icon {
       font-size: 2rem;
     }
+
+    &.terminal-style {
+      font-family: var(--font-mono) !important;
+      font-size: 1.75rem;
+      font-weight: 500;
+      display: flex;
+      font-feature-settings: 'liga' 1, 'calt' 1;
+
+      * {
+        font-family: var(--font-mono) !important;
+      }
+
+      .command-prompt {
+        color: var(--text-secondary);
+        margin-right: var(--spacing-sm);
+      }
+    }
   }
 
   .section-subtitle {

@@ -294,9 +294,9 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title">
-              <span className="icon">💼</span>
-              Work Experience
+            <h2 className="section-title terminal-style">
+              <span className="command-prompt">$</span>
+              cat ./work-experience.txt
             </h2>
             
             {loading.experiences ? (
@@ -421,9 +421,9 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title">
-              <span className="icon">🚀</span>
-              Projects Portfolio
+            <h2 className="section-title terminal-style">
+              <span className="command-prompt">$</span>
+              kubectl get projects -owide
             </h2>
             
             {loading.projects ? (
@@ -511,9 +511,9 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title">
-              <span className="icon">⚡</span>
-              Technical Skills
+            <h2 className="section-title terminal-style">
+              <span className="command-prompt">$</span>
+              ./skills --list --verbose
             </h2>
             
             {loading.skills ? (
@@ -570,9 +570,9 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title">
-              <span className="icon">🏆</span>
-              Certifications
+            <h2 className="section-title terminal-style">
+              <span className="command-prompt">$</span>
+              find ./certifications --type devops
             </h2>
             
             {loading.certifications ? (
@@ -626,9 +626,9 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title">
-              <span className="icon">🎓</span>
-              Education
+            <h2 className="section-title terminal-style">
+              <span className="command-prompt">$</span>
+              git pull origin education
             </h2>
             
             {loading.education ? (

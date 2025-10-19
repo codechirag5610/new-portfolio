@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { images } from '../../constants';
@@ -10,8 +10,21 @@ const calendlyLink = process.env.REACT_APP_CALENDLY_LINK || "https://calendly.co
 
 const HomePage = () => {
   const [caseStudies, setCaseStudies] = useState([]);
-  const [displayedName, setDisplayedName] = useState('');
-  const fullName = 'Chirag Sharma';
+  const [displayedCommand, setDisplayedCommand] = useState('');
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [showOutput, setShowOutput] = useState(false);
+  const fullCommand = 'chirag@devops:~$ whoami';
+  const [impactCounts, setImpactCounts] = useState({
+    experience: 0,
+    architectures: 0,
+    projects: 0,
+    costReduction: 0,
+    fasterReleases: 0,
+    fewerIncidents: 0,
+    deployments: 0
+  });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const impactRef = useRef(null);
 
   const skills = [
     'Full Stack Development',
@@ -32,20 +45,26 @@ const HomePage = () => {
       .catch((err) => console.error('Error fetching case studies:', err));
   }, []);
 
-  // Typewriter effect for name
+  // Typewriter effect for terminal command
   useEffect(() => {
     let index = 0;
-    const typingDelay = 100; // milliseconds per character
-    const startDelay = 800; // delay before typing starts
+    const typingDelay = 80; // milliseconds per character
+    const startDelay = 500; // delay before typing starts
+    const outputDelay = 400; // delay before showing output after typing
 
     const startTyping = setTimeout(() => {
       const typingInterval = setInterval(() => {
-        if (index < fullName.length) {
-          setDisplayedName(fullName.substring(0, index + 1));
+        if (index < fullCommand.length) {
+          setDisplayedCommand(fullCommand.substring(0, index + 1));
           index++;
         } else {
           clearInterval(typingInterval);
-          // Keep cursor blinking after typing completes
+          setTypingComplete(true);
+          
+          // Show output after a short delay
+          setTimeout(() => {
+            setShowOutput(true);
+          }, outputDelay);
         }
       }, typingDelay);
 
@@ -55,10 +74,73 @@ const HomePage = () => {
     return () => clearTimeout(startTyping);
   }, []);
 
+  // Intersection Observer for Impact Numbers animation
+  useEffect(() => {
+    const currentRef = impactRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            animateCounters();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated]);
+
+  const animateCounters = () => {
+    const targets = {
+      experience: 3,
+      architectures: 2,
+      projects: 15,
+      costReduction: 60,
+      fasterReleases: 75,
+      fewerIncidents: 95,
+      deployments: 99
+    };
+
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const stepDuration = duration / steps;
+
+    Object.keys(targets).forEach((key) => {
+      const target = targets[key];
+      const increment = target / steps;
+      let current = 0;
+      let step = 0;
+
+      const timer = setInterval(() => {
+        step++;
+        current = Math.min(increment * step, target);
+        
+        setImpactCounts((prev) => ({
+          ...prev,
+          [key]: Math.round(current)
+        }));
+
+        if (step >= steps) {
+          clearInterval(timer);
+        }
+      }, stepDuration);
+    });
+  };
+
   const scrollToCaseStudies = () => {
-    const caseStudiesSection = document.querySelector('.homepage__case-studies');
-    if (caseStudiesSection) {
-      caseStudiesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const impactSection = document.querySelector('.homepage__impact');
+    if (impactSection) {
+      impactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -84,79 +166,86 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
         >
-          <motion.div
-            className="greeting"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <span className="wave">👋</span>
-            <span>Hello, I'm</span>
-          </motion.div>
+          {/* Terminal Command */}
+          <div className="terminal-command">
+            <span className="command-text">
+              {displayedCommand}
+              <span className={`cursor ${typingComplete ? 'blink' : ''}`}></span>
+            </span>
+          </div>
 
-          <h1 className="name">
-            <span className="prompt">$</span>
-            {displayedName}
-            <span className="cursor"></span>
-          </h1>
+          {/* Output and Content - Only show after typing is complete */}
+          {showOutput && (
+            <>
+              <motion.div
+                className="greeting"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="wave">👋</span>
+                <span>Hello, I'm</span>
+              </motion.div>
 
-          <motion.div
-            className="designation"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <span className="title">DevOps Lead</span>
-            <span className="separator">·</span>
-            <span className="subtitle">AWS Certified Solutions Architect</span>
-          </motion.div>
+              <motion.div
+                className="designation"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <span className="title">DevOps Lead</span>
+                <span className="separator">·</span>
+                <span className="subtitle">AWS Certified Solutions Architect</span>
+              </motion.div>
 
-          <motion.p
-            className="description"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            Transforming ideas into scalable cloud solutions. Specializing in building robust infrastructure, 
-            optimizing DevOps pipelines, and architecting modern applications that drive business growth.
-          </motion.p>
+              <motion.p
+                className="description"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Transforming ideas into scalable cloud solutions. Specializing in building robust infrastructure, 
+                optimizing DevOps pipelines, and architecting modern applications that drive business growth.
+              </motion.p>
 
-          <motion.div
-            className="skills-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-          >
-            <h3>Core Expertise</h3>
-            <div className="skills-grid">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={skill}
-                  className="skill-tag"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 + index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                >
-                  {skill}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+              <motion.div
+                className="skills-container"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <h3>Core Expertise</h3>
+                <div className="skills-grid">
+                  {skills.map((skill, index) => (
+                    <motion.div
+                      key={skill}
+                      className="skill-tag"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                    >
+                      {skill}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
 
-          <motion.div
-            className="cta-buttons"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <a href={ResumePDF} download="Chirag_Sharma_Resume.pdf" className="btn btn-primary">
-              View Resume
-            </a>
-            <a href={calendlyLink} target="_blank" rel="noreferrer" className="btn btn-secondary">
-              Get in Touch
-            </a>
-          </motion.div>
+              <motion.div
+                className="cta-buttons"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <a href={ResumePDF} download="Chirag_Sharma_Resume.pdf" className="btn btn-primary">
+                  View Resume
+                </a>
+                <a href={calendlyLink} target="_blank" rel="noreferrer" className="btn btn-secondary">
+                  Get in Touch
+                </a>
+              </motion.div>
+            </>
+          )}
         </motion.div>
         </div>
 
@@ -174,6 +263,98 @@ const HomePage = () => {
           <span className="scroll-text">Scroll to explore</span>
         </motion.div>
       </div>
+
+      {/* Impact in Numbers Section */}
+      <section className="homepage__impact" ref={impactRef}>
+        <motion.div
+          className="impact-container"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="impact-title">Impact in Numbers</h2>
+          
+          <div className="impact-grid">
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className="impact-number">{impactCounts.experience}</div>
+              <div className="impact-label">Years of Hands-on Experience</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="impact-number">{impactCounts.architectures}+</div>
+              <div className="impact-label">SOC2 Compliant Architectures</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <div className="impact-number">{impactCounts.projects}+</div>
+              <div className="impact-label">Delivered Projects</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <div className="impact-number">{impactCounts.costReduction}%</div>
+              <div className="impact-label">Cost Reduction</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="impact-number">{impactCounts.fasterReleases}%</div>
+              <div className="impact-label">Faster Releases</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <div className="impact-number">{impactCounts.fewerIncidents}%</div>
+              <div className="impact-label">Fewer Incidents</div>
+            </motion.div>
+
+            <motion.div
+              className="impact-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <div className="impact-number">{impactCounts.deployments}%</div>
+              <div className="impact-label">Successful Deployments</div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
 
       {/* Case Studies Section */}
       <motion.div
