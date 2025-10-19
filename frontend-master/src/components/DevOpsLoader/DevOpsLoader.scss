@@ -1,0 +1,43 @@
+.devops-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--background-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+
+  .devops-loader__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .infinity-loop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .infinity-svg {
+      color: var(--text-primary);
+      filter: drop-shadow(0 0 10px var(--text-primary));
+      
+      @media screen and (max-width: 768px) {
+        width: 150px;
+        height: 75px;
+      }
+    }
+  }
+
+  &.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+

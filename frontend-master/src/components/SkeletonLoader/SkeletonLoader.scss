@@ -1,0 +1,205 @@
+.skeleton-box {
+  background: linear-gradient(
+    90deg,
+    var(--background-elevated) 0%,
+    var(--background-tertiary) 50%,
+    var(--background-elevated) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Work Experience Skeleton
+.skeleton-work {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  
+  .skeleton-work-item {
+    background: var(--background-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    
+    .skeleton-company {
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .skeleton-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      padding-left: var(--spacing-2xl);
+      
+      .skeleton-year {
+        margin-bottom: var(--spacing-sm);
+      }
+      
+      .skeleton-job {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        background: var(--background-elevated);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+      }
+    }
+  }
+}
+
+// Skills Skeleton
+.skeleton-skills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  
+  .skeleton-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+  
+  .skeleton-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--spacing-lg);
+    
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: var(--spacing-md);
+    }
+    
+    .skeleton-skill-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-lg);
+      background: var(--background-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+    }
+  }
+}
+
+// Projects Skeleton
+.skeleton-projects {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  
+  .skeleton-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+  
+  .skeleton-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+    
+    .skeleton-project-card {
+      background: var(--background-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      
+      .skeleton-project-info {
+        padding: var(--spacing-lg);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        
+        .skeleton-tags {
+          display: flex;
+          gap: var(--spacing-xs);
+          margin-top: var(--spacing-sm);
+        }
+      }
+    }
+  }
+}
+
+// Certifications Skeleton
+.skeleton-certifications {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+  
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  .skeleton-cert-card {
+    background: var(--background-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    
+    .skeleton-cert-info {
+      padding: var(--spacing-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+  }
+}
+
+// Education Skeleton
+.skeleton-education {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  
+  .skeleton-edu-card {
+    background: var(--background-elevated);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--text-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
+// Case Studies Skeleton
+.skeleton-case-studies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-2xl);
+  
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+  
+  .skeleton-case-card {
+    background: var(--background-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    
+    .skeleton-case-info {
+      padding: var(--spacing-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+  }
+}
+

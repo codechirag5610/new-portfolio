@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import FloatingNav from '../../components/FloatingNav/FloatingNav';
+import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { FaGithub, FaLinkedin, FaStackOverflow } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { HiMail } from 'react-icons/hi';
@@ -31,6 +32,13 @@ const AboutPage = () => {
   const [selectedSkillCategory, setSelectedSkillCategory] = useState('All');
   const [expandedWork, setExpandedWork] = useState(null);
   const [expandedCompany, setExpandedCompany] = useState(null);
+  const [loading, setLoading] = useState({
+    experiences: true,
+    skills: true,
+    projects: true,
+    certifications: true,
+    education: true
+  });
 
   // Dynamically extract unique skill categories from the skills data
   const skillCategories = useMemo(() => {
@@ -90,24 +98,54 @@ const AboutPage = () => {
     const educationQuery = '*[_type == "education"] | order(startYear desc)';
 
     client.fetch(experienceQuery)
-      .then((data) => setExperiences(data))
-      .catch((err) => console.error('Error fetching experiences:', err));
+      .then((data) => {
+        setExperiences(data);
+        setLoading(prev => ({ ...prev, experiences: false }));
+      })
+      .catch((err) => {
+        console.error('Error fetching experiences:', err);
+        setLoading(prev => ({ ...prev, experiences: false }));
+      });
 
     client.fetch(skillsQuery)
-      .then((data) => setSkills(data))
-      .catch((err) => console.error('Error fetching skills:', err));
+      .then((data) => {
+        setSkills(data);
+        setLoading(prev => ({ ...prev, skills: false }));
+      })
+      .catch((err) => {
+        console.error('Error fetching skills:', err);
+        setLoading(prev => ({ ...prev, skills: false }));
+      });
 
     client.fetch(projectsQuery)
-      .then((data) => setProjects(data))
-      .catch((err) => console.error('Error fetching projects:', err));
+      .then((data) => {
+        setProjects(data);
+        setLoading(prev => ({ ...prev, projects: false }));
+      })
+      .catch((err) => {
+        console.error('Error fetching projects:', err);
+        setLoading(prev => ({ ...prev, projects: false }));
+      });
 
     client.fetch(certificationsQuery)
-      .then((data) => setCertifications(data))
-      .catch((err) => console.error('Error fetching certifications:', err));
+      .then((data) => {
+        setCertifications(data);
+        setLoading(prev => ({ ...prev, certifications: false }));
+      })
+      .catch((err) => {
+        console.error('Error fetching certifications:', err);
+        setLoading(prev => ({ ...prev, certifications: false }));
+      });
 
     client.fetch(educationQuery)
-      .then((data) => setEducation(data))
-      .catch((err) => console.error('Error fetching education:', err));
+      .then((data) => {
+        setEducation(data);
+        setLoading(prev => ({ ...prev, education: false }));
+      })
+      .catch((err) => {
+        console.error('Error fetching education:', err);
+        setLoading(prev => ({ ...prev, education: false }));
+      });
   }, []);
 
   // Intersection Observer to track active section
@@ -261,11 +299,14 @@ const AboutPage = () => {
               Work Experience
             </h2>
             
-            <div className="companies-container">
-              {experiencesByCompany.length === 0 ? (
-                <p className="no-data">No work experience added yet. Add them in Sanity Studio.</p>
-              ) : (
-                experiencesByCompany.map(({ company, yearData }, companyIndex) => {
+            {loading.experiences ? (
+              <SkeletonLoader type="work" />
+            ) : (
+              <div className="companies-container">
+                {experiencesByCompany.length === 0 ? (
+                  <p className="no-data">No work experience added yet. Add them in Sanity Studio.</p>
+                ) : (
+                  experiencesByCompany.map(({ company, yearData }, companyIndex) => {
                 const isCompanyExpanded = expandedCompany === company;
                 
                 return (
@@ -366,8 +407,9 @@ const AboutPage = () => {
                   </motion.div>
                 );
               })
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </motion.div>
         </section>
 
@@ -384,21 +426,25 @@ const AboutPage = () => {
               Projects Portfolio
             </h2>
             
-            {/* Project Filters */}
-            <div className="project-filters">
-              {['All', 'Web App', 'React JS', 'IaC', 'Helm Charts', 'Automations and Pipelines', 'DevOps', 'AI', 'Observability', 'Security'].map((tag) => (
-                <button
-                  key={tag}
-                  className={`filter-btn ${selectedTag === tag ? 'active' : ''}`}
-                  onClick={() => setSelectedTag(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
+            {loading.projects ? (
+              <SkeletonLoader type="projects" />
+            ) : (
+              <>
+                {/* Project Filters */}
+                <div className="project-filters">
+                  {['All', 'Web App', 'React JS', 'IaC', 'Helm Charts', 'Automations and Pipelines', 'DevOps', 'AI', 'Observability', 'Security'].map((tag) => (
+                    <button
+                      key={tag}
+                      className={`filter-btn ${selectedTag === tag ? 'active' : ''}`}
+                      onClick={() => setSelectedTag(tag)}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
 
-            {/* Projects Grid */}
-            <div className="projects-grid">
+                {/* Projects Grid */}
+                <div className="projects-grid">
               {projects
                 .filter(project => selectedTag === 'All' || project.tags?.includes(selectedTag))
                 .map((project, index) => (
@@ -447,10 +493,12 @@ const AboutPage = () => {
                     </div>
                   </motion.div>
                 ))}
-            </div>
+                </div>
 
-            {projects.filter(project => selectedTag === 'All' || project.tags?.includes(selectedTag)).length === 0 && (
-              <p className="no-projects">No projects found for this category.</p>
+                {projects.filter(project => selectedTag === 'All' || project.tags?.includes(selectedTag)).length === 0 && (
+                  <p className="no-projects">No projects found for this category.</p>
+                )}
+              </>
             )}
           </motion.div>
         </section>
@@ -468,42 +516,48 @@ const AboutPage = () => {
               Technical Skills
             </h2>
             
-            {/* Skill Category Filters */}
-            <div className="skill-filters">
-              {skillCategories.map((category) => (
-                <button
-                  key={category}
-                  className={`filter-btn ${selectedSkillCategory === category ? 'active' : ''}`}
-                  onClick={() => setSelectedSkillCategory(category)}
-                >
-                  {formatCategoryName(category)}
-                </button>
-              ))}
-            </div>
+            {loading.skills ? (
+              <SkeletonLoader type="skills" />
+            ) : (
+              <>
+                {/* Skill Category Filters */}
+                <div className="skill-filters">
+                  {skillCategories.map((category) => (
+                    <button
+                      key={category}
+                      className={`filter-btn ${selectedSkillCategory === category ? 'active' : ''}`}
+                      onClick={() => setSelectedSkillCategory(category)}
+                    >
+                      {formatCategoryName(category)}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="skills-grid">
-              {skills
-                .filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory)
-                .map((skill, index) => (
-                  <motion.div
-                    key={skill.name}
-                    className="skill-card"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                    whileHover={{ y: -4 }}
-                  >
-                    <div className="skill-icon">
-                      <img src={urlFor(skill.icon)} alt={skill.name} />
-                    </div>
-                    <p>{skill.name}</p>
-                  </motion.div>
-                ))}
-            </div>
+                <div className="skills-grid">
+                  {skills
+                    .filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory)
+                    .map((skill, index) => (
+                      <motion.div
+                        key={skill.name}
+                        className="skill-card"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: index * 0.05 }}
+                        whileHover={{ y: -4 }}
+                      >
+                        <div className="skill-icon">
+                          <img src={urlFor(skill.icon)} alt={skill.name} />
+                        </div>
+                        <p>{skill.name}</p>
+                      </motion.div>
+                    ))}
+                </div>
 
-            {skills.filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory).length === 0 && (
-              <p className="no-data">No skills found for this category.</p>
+                {skills.filter(skill => selectedSkillCategory === 'All' || skill.category === selectedSkillCategory).length === 0 && (
+                  <p className="no-data">No skills found for this category.</p>
+                )}
+              </>
             )}
           </motion.div>
         </section>
@@ -521,39 +575,45 @@ const AboutPage = () => {
               Certifications
             </h2>
             
-            <div className="certifications-list">
-              {certifications.map((cert, index) => (
-                <motion.div
-                  key={cert._id || index}
-                  className="cert-card"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -4 }}
-                >
-                  <div className="cert-image">
-                    <img src={urlFor(cert.certificateImage)} alt={cert.name} />
-                  </div>
-                  <div className="cert-content">
-                    <h3>{cert.name}</h3>
-                    {cert.issuer && <p className="issuer">{cert.issuer}</p>}
-                    <div className="cert-meta">
-                      <span className="year">{cert.year}</span>
-                      {cert.credentialId && <span className="credential">ID: {cert.credentialId}</span>}
-                    </div>
-                    {cert.credentialUrl && (
-                      <a href={cert.credentialUrl} target="_blank" rel="noreferrer" className="verify-link">
-                        Verify Certificate
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {certifications.length === 0 && (
-              <p className="no-data">No certifications added yet. Add them in Sanity Studio.</p>
+            {loading.certifications ? (
+              <SkeletonLoader type="certifications" />
+            ) : (
+              <>
+                <div className="certifications-list">
+                  {certifications.map((cert, index) => (
+                    <motion.div
+                      key={cert._id || index}
+                      className="cert-card"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      whileHover={{ y: -4 }}
+                    >
+                      <div className="cert-image">
+                        <img src={urlFor(cert.certificateImage)} alt={cert.name} />
+                      </div>
+                      <div className="cert-content">
+                        <h3>{cert.name}</h3>
+                        {cert.issuer && <p className="issuer">{cert.issuer}</p>}
+                        <div className="cert-meta">
+                          <span className="year">{cert.year}</span>
+                          {cert.credentialId && <span className="credential">ID: {cert.credentialId}</span>}
+                        </div>
+                        {cert.credentialUrl && (
+                          <a href={cert.credentialUrl} target="_blank" rel="noreferrer" className="verify-link">
+                            Verify Certificate
+                          </a>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {certifications.length === 0 && (
+                  <p className="no-data">No certifications added yet. Add them in Sanity Studio.</p>
+                )}
+              </>
             )}
           </motion.div>
         </section>
@@ -571,33 +631,39 @@ const AboutPage = () => {
               Education
             </h2>
             
-            <div className="education-list">
-              {education.map((edu, index) => (
-                <motion.div
-                  key={edu._id || index}
-                  className="edu-card"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <h3>{edu.degree}</h3>
-                  {edu.field && <p className="field">{edu.field}</p>}
-                  <p className="institution">{edu.institution}</p>
-                  {edu.location && <p className="location">{edu.location}</p>}
-                  <div className="edu-meta">
-                    <span className="duration">
-                      {edu.startYear}{edu.endYear && ` - ${edu.endYear}`}
-                    </span>
-                    {edu.grade && <span className="grade">{edu.grade}</span>}
-                  </div>
-                  {edu.description && <p className="description">{edu.description}</p>}
-                </motion.div>
-              ))}
-            </div>
-            
-            {education.length === 0 && (
-              <p className="no-data">No education records added yet. Add them in Sanity Studio.</p>
+            {loading.education ? (
+              <SkeletonLoader type="education" />
+            ) : (
+              <>
+                <div className="education-list">
+                  {education.map((edu, index) => (
+                    <motion.div
+                      key={edu._id || index}
+                      className="edu-card"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <h3>{edu.degree}</h3>
+                      {edu.field && <p className="field">{edu.field}</p>}
+                      <p className="institution">{edu.institution}</p>
+                      {edu.location && <p className="location">{edu.location}</p>}
+                      <div className="edu-meta">
+                        <span className="duration">
+                          {edu.startYear}{edu.endYear && ` - ${edu.endYear}`}
+                        </span>
+                        {edu.grade && <span className="grade">{edu.grade}</span>}
+                      </div>
+                      {edu.description && <p className="description">{edu.description}</p>}
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {education.length === 0 && (
+                  <p className="no-data">No education records added yet. Add them in Sanity Studio.</p>
+                )}
+              </>
             )}
           </motion.div>
         </section>
