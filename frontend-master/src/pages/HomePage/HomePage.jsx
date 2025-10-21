@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { images } from '../../constants';
 import { client, urlFor } from '../../client';
-import ResumePDF from '../../assets/Chirag_Sharma_DevOps_Lead.pdf';
+import ResumePDF from '../../assets/DevOps_Lead_Chirag_Sharma.pdf';
 import './HomePage.scss';
 
 const calendlyLink = process.env.REACT_APP_CALENDLY_LINK || "https://calendly.com/sharmachirag347/30min";
