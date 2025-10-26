@@ -1,3 +1,5 @@
+import {code} from '@sanity/code-input'
+
 export default {
   name: 'caseStudies',
   title: 'Case Studies',
@@ -47,7 +49,7 @@ export default {
       name: 'fullDescription',
       title: 'Full Description',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [{type: 'block'},{type: 'image'},{type: 'code'}],
       description: 'Detailed description with rich text formatting'
     },
     {

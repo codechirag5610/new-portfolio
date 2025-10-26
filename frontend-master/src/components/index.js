@@ -6,3 +6,4 @@ export { default as FloatingNav } from './FloatingNav/FloatingNav';
 export { default as Footer } from './Footer/Footer';
 export { default as DevOpsLoader } from './DevOpsLoader/DevOpsLoader';
 export { default as SkeletonLoader } from './SkeletonLoader/SkeletonLoader';
+export { default as CodeBlock } from './CodeBlock/CodeBlock';

@@ -1,0 +1,288 @@
+.code-block {
+  margin: var(--spacing-xl) 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--background-elevated);
+  box-shadow: var(--shadow-sm);
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--background-tertiary);
+    border-bottom: 1px solid var(--border-color);
+
+    .code-info {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+
+      .filename {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: var(--background-primary);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+      }
+
+      .language {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    .copy-button {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--background-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-base);
+
+      &:hover {
+        color: var(--text-primary);
+        background: var(--background-elevated);
+        border-color: var(--text-primary);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &.copied {
+        color: var(--success-color, #10b981);
+        border-color: var(--success-color, #10b981);
+        background: rgba(16, 185, 129, 0.1);
+
+        svg {
+          animation: checkmark 0.3s ease-in-out;
+        }
+      }
+
+      svg {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .code-content {
+    margin: 0;
+    padding: var(--spacing-lg);
+    background: var(--background-primary);
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+
+    code {
+      background: none;
+      padding: 0;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      white-space: pre;
+      word-wrap: normal;
+      overflow-wrap: normal;
+    }
+  }
+
+  // Syntax highlighting for common languages
+  .language-javascript,
+  .language-js {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-python {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-bash,
+  .language-shell {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-json {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-yaml,
+  .language-yml {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-dockerfile {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-sql {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-html {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-css {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-xml {
+    .code-content code {
+      color: #f8f8f2;
+    }
+  }
+
+  .language-text {
+    .code-content code {
+      color: var(--text-secondary);
+    }
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Dark theme adjustments
+@media (prefers-color-scheme: dark) {
+  .code-block {
+    .code-content {
+      background: #1e1e1e;
+      
+      code {
+        color: #d4d4d4;
+      }
+    }
+
+    // Enhanced syntax highlighting for dark theme
+    .language-javascript,
+    .language-js {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-python {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-bash,
+    .language-shell {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-json {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-yaml,
+    .language-yml {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-dockerfile {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-sql {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-html {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-css {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+
+    .language-xml {
+      .code-content code {
+        color: #d4d4d4;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+  .code-block {
+    .code-header {
+      padding: var(--spacing-sm) var(--spacing-md);
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      align-items: stretch;
+
+      .code-info {
+        justify-content: space-between;
+      }
+
+      .copy-button {
+        align-self: flex-end;
+        width: fit-content;
+      }
+    }
+
+    .code-content {
+      padding: var(--spacing-md);
+      font-size: 0.8125rem;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { client, urlFor } from '../../client';
 import { PortableText } from '@portabletext/react';
+import { CodeBlock } from '../../components';
 import './CaseStudyDetail.scss';
 
 const CaseStudyDetail = () => {
@@ -11,6 +12,13 @@ const CaseStudyDetail = () => {
   const [caseStudy, setCaseStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [relatedStudies, setRelatedStudies] = useState([]);
+
+  // Custom components for PortableText
+  const portableTextComponents = {
+    types: {
+      code: CodeBlock,
+    },
+  };
 
   useEffect(() => {
     const fetchCaseStudy = async () => {
@@ -132,7 +140,10 @@ const CaseStudyDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <PortableText value={caseStudy.fullDescription} />
+          <PortableText 
+            value={caseStudy.fullDescription} 
+            components={portableTextComponents}
+          />
         </motion.div>
       )}
 
