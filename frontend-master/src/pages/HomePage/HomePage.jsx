@@ -41,7 +41,18 @@ const HomePage = () => {
     const caseStudiesQuery = '*[_type == "caseStudies"] | order(order desc)[0...3]';
     
     client.fetch(caseStudiesQuery)
-      .then((data) => setCaseStudies(data))
+      .then((data) => {
+        console.log('HomePage - Fetched case studies:', data);
+        console.log('HomePage - Case studies count:', data.length);
+        
+        // Remove duplicates based on _id
+        const uniqueCaseStudies = data.filter((study, index, self) => 
+          index === self.findIndex(s => s._id === study._id)
+        );
+        
+        console.log('HomePage - After deduplication:', uniqueCaseStudies.length, 'case studies');
+        setCaseStudies(uniqueCaseStudies);
+      })
       .catch((err) => console.error('Error fetching case studies:', err));
   }, []);
 

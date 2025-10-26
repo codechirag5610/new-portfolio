@@ -15,8 +15,32 @@ const CaseStudiesPage = () => {
     
     client.fetch(caseStudiesQuery)
       .then((data) => {
-        setCaseStudies(data);
-        setFilteredStudies(data);
+        console.log('Fetched case studies:', data);
+        console.log('Case studies count:', data.length);
+        
+        // Check for duplicates by title
+        const titles = data.map(study => study.title);
+        const duplicateTitles = titles.filter((title, index) => titles.indexOf(title) !== index);
+        if (duplicateTitles.length > 0) {
+          console.warn('Duplicate case study titles found:', duplicateTitles);
+        }
+        
+        // Check for duplicates by _id
+        const ids = data.map(study => study._id);
+        const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+        if (duplicateIds.length > 0) {
+          console.warn('Duplicate case study IDs found:', duplicateIds);
+        }
+        
+        // Remove duplicates based on _id
+        const uniqueCaseStudies = data.filter((study, index, self) => 
+          index === self.findIndex(s => s._id === study._id)
+        );
+        
+        console.log('After deduplication:', uniqueCaseStudies.length, 'case studies');
+        
+        setCaseStudies(uniqueCaseStudies);
+        setFilteredStudies(uniqueCaseStudies);
         
         // Extract unique categories
         const uniqueCategories = ['All', ...new Set(data.map(study => study.category).filter(Boolean))];
@@ -68,7 +92,7 @@ const CaseStudiesPage = () => {
       <div className="case-studies-grid">
         {filteredStudies.map((caseStudy, index) => (
           <motion.div
-            key={caseStudy._id || index}
+            key={caseStudy._id || `case-study-${index}`}
             className="case-study-card"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
